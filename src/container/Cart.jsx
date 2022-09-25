@@ -1,4 +1,5 @@
 import React from 'react'
+import { NavLink } from 'react-router-dom'
 
 const Cart = () => {
     return (
@@ -91,8 +92,12 @@ const Cart = () => {
                                     <span>$17.60</span>
                                 </p>
                             </div>
-                            <p className="text-center"><a href="checkout.html" className="btn btn-primary py-3 px-4">Proceed to
-                                Checkout</a></p>
+                            <p className="text-center">
+                                <NavLink to="/checkout" className="btn btn-primary py-3 px-4">
+                                    Proceed to
+                                    Checkout
+                                </NavLink>
+                            </p>
                         </div>
                     </div>
                 </div>

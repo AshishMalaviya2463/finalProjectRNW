@@ -1,9 +1,11 @@
+import { act } from "@testing-library/react"
 import * as ActionTypes from "../ActionTypes"
 
 const initVal = {
     isLogin: false,
     error: '',
-    text: ''
+    text: '',
+    navigateTo: ''
 }
 
 export const authReducer = (state = initVal, action) => {
@@ -12,24 +14,27 @@ export const authReducer = (state = initVal, action) => {
             return {
                 ...state,
                 text: '',
-                error: ''
+                error: '',
+                navigateTo: ''
             }
         case ActionTypes.SIGNUP_USER:
             return {
                 ...state,
-                text: action.payload
+                text: action.payload.text,
+                navigateTo: action.payload.navigateTo
             }
         case ActionTypes.LOGIN_USER:
             return {
                 ...state,
                 isLogin: true,
-                text: action.payload
+                text: action.payload.text,
+                navigateTo: action.payload.navigateTo
             }
         case ActionTypes.LOGOUT_USER:
             return {
                 ...state,
                 isLogin: false,
-                text: action.payload
+                text: action.payload.text
             }
         case ActionTypes.ERROR:
             return {

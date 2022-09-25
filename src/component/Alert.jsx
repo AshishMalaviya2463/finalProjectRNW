@@ -1,15 +1,41 @@
 import React from 'react'
-import { useSnackbar, SnackbarProvider } from 'notistack'
+import { useEffect } from 'react'
+import { useSnackbar } from 'notistack';
+import { useSelector } from 'react-redux';
 
 const Alert = () => {
+    const { enqueueSnackbar, closeSnackbar } = useSnackbar();
 
-    const { enqueueSnackbar } = useSnackbar();
+    const auth = useSelector(state => state.auth)
+    console.log(auth)
 
-    enqueueSnackbar("Something went wrong", {
-        variant: "error",
-        autoHideDuration: 3000
-    });
+    useEffect(() => {
+        if (auth.text !== '') {
+            enqueueSnackbar(auth.text, {
+                variant: 'success',
+                anchorOrigin: {
+                    vertical: 'top',
+                    horizontal: 'right'
+                }
+            })
 
+            setTimeout(() => {
+                closeSnackbar()
+            }, 2000)
+        } else if (auth.error) {
+            enqueueSnackbar(auth.error, {
+                variant: 'error',
+                anchorOrigin: {
+                    vertical: 'top',
+                    horizontal: 'right'
+                }
+            })
+
+            setTimeout(() => {
+                closeSnackbar()
+            }, 2000)
+        }
+    }, [auth])
 
     return (
         <>

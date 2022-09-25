@@ -1,14 +1,25 @@
-import React from "react"
-import { NavLink } from "react-router-dom"
+import React, { useEffect } from "react"
+import { NavLink, useNavigate } from "react-router-dom"
 import { useDispatch, useSelector } from "react-redux"
 import Alert from "./Alert"
 import { logOutUserAction } from "../redux/actions/authAction"
+import LoginIcon from '@mui/icons-material/Login';
+import LogoutIcon from '@mui/icons-material/Logout';
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 
 const Header = () => {
 
     const auth = useSelector(state => state.auth)
 
     const dispatch = useDispatch()
+
+    const navigate = useNavigate()
+
+    useEffect(() => {
+        if (auth.navigateTo !== '') {
+            navigate(auth.navigateTo)
+        }
+    }, [auth])
 
     return (
         <>
@@ -35,7 +46,7 @@ const Header = () => {
             </div>
             <nav className="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
                 <div className="container">
-                    {/* <Alert /> */}
+                    <Alert />
                     <NavLink className="navbar-brand" to="/">Minishop</NavLink>
                     <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
                         <span className="oi oi-menu" /> Menu
@@ -48,24 +59,26 @@ const Header = () => {
                             <li className="nav-item"><NavLink to="/products" className="nav-link">Products</NavLink></li>
                             <li className="nav-item"><NavLink to="/blog" className="nav-link">Blog</NavLink></li>
                             <li className="nav-item"><NavLink to="/contact" className="nav-link">Contact</NavLink></li>
-                            {
-                                !auth.isLogin ?
-                                    <li className="nav-item cta cta-colored">
+                            <li className="nav-item cta cta-colored">
+                                {
+                                    !auth.isLogin ?
                                         <NavLink to="/login" className="nav-link" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Login">
-                                            <i className="fa-solid fa-right-to-bracket "></i>
+                                            <LoginIcon />
                                         </NavLink>
-                                    </li>
-                                    :
-                                    <li className="nav-item cta cta-colored" >
+                                        :
                                         <NavLink to="/login" className="nav-link" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Logout"
                                             onClick={() => dispatch(logOutUserAction())}
                                         >
-                                            <i className="fa-solid fa-right-from-bracket"></i>
+                                            <LogoutIcon />
                                         </NavLink>
-                                    </li>
-                            }
+                                }
 
-                            <li className="nav-item cta cta-colored"><NavLink to="/cart" className="nav-link"><span className="icon-shopping_cart" />[0]</NavLink></li>
+                            </li>
+
+                            <li className="nav-item cta cta-colored">
+                                <NavLink to="/cart" className="nav-link">
+                                    <ShoppingCartIcon />[0]
+                                </NavLink></li>
                         </ul>
                     </div>
                 </div>
