@@ -1,21 +1,17 @@
-import { createStore, applyMiddleware } from "redux"
-import { rootReducer } from "./reducers/rootReducer"
-import thunk from "redux-thunk"
-import { persistReducer, persistStore } from 'redux-persist';
-import storage from 'redux-persist/lib/storage'
-
+import { createStore, applyMiddleware } from "redux";
+import { rootReducer } from "./reducers/rootReducer";
+import thunk from "redux-thunk";
+import { persistReducer, persistStore } from "redux-persist";
+import storage from "redux-persist/lib/storage";
 
 const persistConfig = {
-    key: 'root',
-    storage,
-    whitelist: ['auth']
-}
+  key: "root",
+  storage,
+  whitelist: ["auth", "productCounter", "cart"],
+};
 
-const persistedReducer = persistReducer(persistConfig, rootReducer)
+const persistedReducer = persistReducer(persistConfig, rootReducer);
 
-export const store = createStore(
-    persistedReducer,
-    applyMiddleware(thunk)
-)
+export const store = createStore(persistedReducer, applyMiddleware(thunk));
 
-export let persistor = persistStore(store)
+export let persistor = persistStore(store);

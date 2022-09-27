@@ -1,0 +1,11 @@
+.cartDesc{
+    width: 250px !important; 
+    height: 75px !important;
+    overflow:hidden;
+    font-size: 12px;
+    text-align: left;
+}
+
+.product-name{
+    text-align: center;
+}

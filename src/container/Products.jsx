@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import { NavLink } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { getCategoryAction } from "../redux/actions/categoryActions";
 import { getProductsAction } from "../redux/actions/productAction";
@@ -44,19 +45,23 @@ const Products = () => {
                 ) : (
                   products.map((d) => {
                     return (
-                      <div
+                      <NavLink
                         className="col-sm-12 col-md-6 col-lg-4  d-flex"
                         key={d.id}
+                        to={`/product/${d.id}`}
                       >
                         <div className="product d-flex flex-column ">
-                          <a href="/" className="img-prod py-5 h-100">
+                          <NavLink
+                            to={`/product/${d.id}`}
+                            className="img-prod py-5 h-100"
+                          >
                             <img
                               className="img-fluid h-100 w-100"
                               src={d.pimage}
                               alt="Colorlib Template"
                             />
                             <div className="overlay" />
-                          </a>
+                          </NavLink>
                           <div className="text py-3 pb-4 px-3">
                             <div className="d-flex">
                               <div className="cat">
@@ -108,7 +113,7 @@ const Products = () => {
                             </p>
                           </div>
                         </div>
-                      </div>
+                      </NavLink>
                     );
                   })
                 )}
