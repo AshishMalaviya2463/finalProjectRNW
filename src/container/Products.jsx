@@ -1,14 +1,15 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { getCategoryAction } from "../redux/actions/categoryActions";
 import { getProductsAction } from "../redux/actions/productAction";
+import { addToCartAction } from "../redux/actions/cartActions";
 
 const Products = () => {
   const dispatch = useDispatch();
 
   const categories = useSelector((state) => state.category);
-  const products = useSelector((state) => state.product);
+  let products = useSelector((state) => state.product);
 
   useEffect(() => {
     dispatch(getCategoryAction());
@@ -27,7 +28,7 @@ const Products = () => {
               <p className="breadcrumbs">
                 <span className="mr-2">
                   <a href="index.html">Home</a>
-                </span>{" "}
+                </span>
                 <span>Shop</span>
               </p>
               <h1 className="mb-0 bread">Shop</h1>
@@ -45,10 +46,9 @@ const Products = () => {
                 ) : (
                   products.map((d) => {
                     return (
-                      <NavLink
+                      <div
                         className="col-sm-12 col-md-6 col-lg-4  d-flex"
                         key={d.id}
-                        to={`/product/${d.id}`}
                       >
                         <div className="product d-flex flex-column ">
                           <NavLink
@@ -97,23 +97,20 @@ const Products = () => {
                             </div>
                             <p className="bottom-area d-flex px-3">
                               <a
-                                href="/"
+                                href="js:"
                                 className="add-to-cart text-center py-2 mr-1"
+                                onClick={() =>
+                                  dispatch(addToCartAction({ id: d.id }))
+                                }
                               >
                                 <span>
                                   Add to cart <i className="ion-ios-add ml-1" />
                                 </span>
                               </a>
-                              <a href="/" className="buy-now text-center py-2">
-                                Buy now
-                                <span>
-                                  <i className="ion-ios-cart ml-1" />
-                                </span>
-                              </a>
                             </p>
                           </div>
                         </div>
-                      </NavLink>
+                      </div>
                     );
                   })
                 )}
@@ -163,63 +160,30 @@ const Products = () => {
                       ) : (
                         categories.map((d) => {
                           return (
-                            <div key={d.id}>
+                            <NavLink
+                              to={`/products/category/${d.name}`}
+                              key={d.id}
+                            >
                               <div className="panel-heading">
                                 <h4 className="">
-                                  <a href="/">{d.name}</a>
+                                  <a
+                                    href="js:"
+                                    onClick={() => {
+                                      products = products.filter(
+                                        (fp) => fp.name === d.name
+                                      );
+                                    }}
+                                  >
+                                    {d.name}
+                                  </a>
                                 </h4>
                               </div>
-                            </div>
+                            </NavLink>
                           );
                         })
                       )}
                     </div>
                   </div>
-                </div>
-                <div className="sidebar-box-2">
-                  <h2 className="heading">Price Range</h2>
-                  <form method="post" className="colorlib-form-2">
-                    <div className="row">
-                      <div className="col-md-12">
-                        <div className="form-group">
-                          <label htmlFor="guests">Price from:</label>
-                          <div className="form-field">
-                            <i className="icon icon-arrow-down3" />
-                            <select
-                              name="people"
-                              id="people"
-                              className="form-control"
-                            >
-                              <option value="#">1</option>
-                              <option value="#">200</option>
-                              <option value="#">300</option>
-                              <option value="#">400</option>
-                              <option value="#">1000</option>
-                            </select>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="col-md-12">
-                        <div className="form-group">
-                          <label htmlFor="guests">Price to:</label>
-                          <div className="form-field">
-                            <i className="icon icon-arrow-down3" />
-                            <select
-                              name="people"
-                              id="people"
-                              className="form-control"
-                            >
-                              <option value="#">2000</option>
-                              <option value="#">4000</option>
-                              <option value="#">6000</option>
-                              <option value="#">8000</option>
-                              <option value="#">10000</option>
-                            </select>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </form>
                 </div>
               </div>
             </div>

@@ -26,14 +26,25 @@ export const productCounterReducer = (state = initVal, action) => {
     case Actiontypes.DECREMENT_PRODUCT_COUNTER:
       return state.map((d) => {
         if (d.id === action.payload) {
-          return {
-            ...d,
-            qty: d.qty - 1,
-          };
+          if (d.qty > 1) {
+            return {
+              ...d,
+              qty: d.qty - 1,
+            };
+          } else {
+            return {
+              ...d,
+              qty: 1,
+            };
+          }
         } else {
           return d;
         }
       });
+    case Actiontypes.REMOVE_FROM_CART:
+      return state.filter((d) => d.id !== action.payload);
+    case Actiontypes.CLEAR_COUNT:
+      return [];
     default:
       return state;
   }

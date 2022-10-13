@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
-import { removeFromCartAction } from "../redux/actions/cartActions";
-import { getProductsAction } from "../redux/actions/productAction";
 import {
-  decrementCounter,
-  incrementCounter,
-} from "../redux/actions/productCounterAction";
+  addToCartAction,
+  decrementToCartAction,
+  removeFromCartAction,
+} from "../redux/actions/cartActions";
+import { getProductsAction } from "../redux/actions/productAction";
 
 const Cart = () => {
   // const [total, setTotal] = useState(0);
@@ -14,13 +14,12 @@ const Cart = () => {
   const dispatch = useDispatch();
 
   const cartProduct = useSelector((state) => state.cart);
-  const productCounter = useSelector((state) => state.productCounter);
+  // const productCounter = useSelector((state) => state.productCounter);
   const products = useSelector((state) => state.product);
-  console.log(cartProduct);
 
   useEffect(() => {
     dispatch(getProductsAction());
-  }, [productCounter]);
+  }, []);
 
   const cartItems = [];
 
@@ -31,17 +30,18 @@ const Cart = () => {
       }
     });
   });
+  console.log(cartProduct, cartItems);
 
   const handleRemoveFromCart = (id) => {
     dispatch(removeFromCartAction(id));
   };
 
   const handleIncrement = (id) => {
-    dispatch(incrementCounter(id));
+    dispatch(addToCartAction({ id }));
   };
 
   const handleDecrement = (id) => {
-    dispatch(decrementCounter(id));
+    dispatch(decrementToCartAction({ id }));
   };
 
   return (
@@ -84,7 +84,7 @@ const Cart = () => {
                     {cartItems.length < 1 ? (
                       <h2>No Item Added To Cart</h2>
                     ) : (
-                      cartItems.map((d) => {
+                      cartItems.map((d, i) => {
                         return (
                           <tr className="text-center" key={d.id}>
                             <td className="product-remove">
@@ -127,11 +127,7 @@ const Cart = () => {
                                   id="quantity"
                                   name="quantity"
                                   className="quantity form-control input-number"
-                                  value={productCounter.map((cd) => {
-                                    if (d.id === cd.id) {
-                                      return parseInt(cd.qty);
-                                    }
-                                  })}
+                                  value={cartProduct[i].qty}
                                   min={1}
                                   max={100}
                                 />
@@ -150,13 +146,10 @@ const Cart = () => {
                             </td>
                             <td className="total">
                               &#x20B9;
-                              {productCounter.map((cd) => {
-                                if (d.id === cd.id) {
-                                  // setTotal(total + cd.qty * d.pprice);
-                                  total += cd.qty * d.pprice;
-                                  return cd.qty * d.pprice;
-                                }
-                              })}
+                              {
+                                ((total += cartProduct[i].qty * d.pprice),
+                                cartProduct[i].qty * d.pprice)
+                              }
                             </td>
                           </tr>
                         );

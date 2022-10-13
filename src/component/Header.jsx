@@ -9,6 +9,7 @@ import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 
 const Header = () => {
   const auth = useSelector((state) => state.auth);
+  const order = useSelector((state) => state.order);
 
   const dispatch = useDispatch();
 
@@ -19,8 +20,12 @@ const Header = () => {
   useEffect(() => {
     if (auth.navigateTo !== "") {
       navigate(auth.navigateTo);
+    } else if (order.navigateTo !== "") {
+      navigate(order.navigateTo);
+    } else {
+      navigate("/");
     }
-  }, [auth]);
+  }, [auth, order]);
 
   return (
     <>
@@ -126,7 +131,8 @@ const Header = () => {
 
               <li className="nav-item cta cta-colored">
                 <NavLink to="/cart" className="nav-link">
-                  <ShoppingCartIcon />[{cartProduct.length}]
+                  <ShoppingCartIcon />[
+                  {cartProduct.reduce((pv, cv) => pv + cv.qty, 0)}]
                 </NavLink>
               </li>
             </ul>

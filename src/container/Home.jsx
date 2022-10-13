@@ -196,9 +196,10 @@ const Home = () => {
         <div className="container d-flex justify-content-around mb-4">
           {categories.map((d) => {
             return (
-              <div
+              <NavLink
                 className="col-md-3 text-center"
                 style={{ cursor: "pointer" }}
+                to={`/products/category/${d.name}`}
               >
                 <img
                   src={d.catImg}
@@ -206,7 +207,7 @@ const Home = () => {
                   className="w-25 h-50 d-inline mx-auto mb-1"
                 />
                 <h6>{d.name}</h6>
-              </div>
+              </NavLink>
             );
           })}
         </div>

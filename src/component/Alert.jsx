@@ -1,47 +1,48 @@
-import React from 'react'
-import { useEffect } from 'react'
-import { useSnackbar } from 'notistack';
-import { useSelector } from 'react-redux';
+import React from "react";
+import { useEffect } from "react";
+import { useSnackbar } from "notistack";
+import { useDispatch, useSelector } from "react-redux";
+import * as ActionTypes from "../redux/ActionTypes";
 
 const Alert = () => {
-    const { enqueueSnackbar, closeSnackbar } = useSnackbar();
+  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
 
-    const auth = useSelector(state => state.auth)
-    console.log(auth)
+  const auth = useSelector((state) => state.auth);
+  const order = useSelector((state) => state.order);
 
-    useEffect(() => {
-        if (auth.text !== '') {
-            enqueueSnackbar(auth.text, {
-                variant: 'success',
-                anchorOrigin: {
-                    vertical: 'top',
-                    horizontal: 'right'
-                }
-            })
+  // console.log(auth, order);
 
-            setTimeout(() => {
-                closeSnackbar()
-            }, 2000)
-        } else if (auth.error) {
-            enqueueSnackbar(auth.error, {
-                variant: 'error',
-                anchorOrigin: {
-                    vertical: 'top',
-                    horizontal: 'right'
-                }
-            })
+  const dispatch = useDispatch();
 
-            setTimeout(() => {
-                closeSnackbar()
-            }, 2000)
-        }
-    }, [auth])
+  useEffect(() => {
+    if (auth.text !== "" || order.text !== "") {
+      enqueueSnackbar(auth.text !== "" ? auth.text : order.text, {
+        variant: "success",
+        anchorOrigin: {
+          vertical: "top",
+          horizontal: "right",
+        },
+      });
 
-    return (
-        <>
+      setTimeout(() => {
+        closeSnackbar();
+      }, 2000);
+    } else if (auth.error) {
+      enqueueSnackbar(auth.error, {
+        variant: "error",
+        anchorOrigin: {
+          vertical: "top",
+          horizontal: "right",
+        },
+      });
 
-        </>
-    )
-}
+      setTimeout(() => {
+        closeSnackbar();
+      }, 2000);
+    }
+  }, [auth, order]);
 
-export default Alert
+  return <></>;
+};
+
+export default Alert;

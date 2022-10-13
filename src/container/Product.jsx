@@ -10,6 +10,9 @@ import {
 const Product = () => {
   const { id } = useParams();
 
+  const cartData = useSelector((state) => state.cart);
+  console.log(cartData);
+
   const dispatch = useDispatch();
 
   const products = useSelector((state) => state.product);
@@ -17,18 +20,10 @@ const Product = () => {
   console.log(productCounter);
 
   const product = products.filter((d) => d.id === id);
-  const productQty = productCounter.filter((d) => d.id === id);
-
-  const handleIncrement = () => {
-    dispatch(incrementCounter(id));
-  };
-
-  const handleDecrement = () => {
-    dispatch(decrementCounter(id));
-  };
+  // const productQty = productCounter.filter((d) => d.id === id);
 
   const handleAddToCart = () => {
-    const data = productQty.length > 0 ? productQty[0] : { id, qty: 1 };
+    const data = { id };
     dispatch(addToCartAction(data));
   };
 
@@ -106,55 +101,8 @@ const Product = () => {
               </p>
               <p>{product[0].pdesc}</p>
               <div className="row mt-4">
-                <div className="col-md-6">
-                  <div className="form-group d-flex">
-                    <div className="select-wrap">
-                      <div className="icon">
-                        <span className="ion-ios-arrow-down" />
-                      </div>
-                      <select name id className="form-control">
-                        <option value>Small</option>
-                        <option value>Medium</option>
-                        <option value>Large</option>
-                        <option value>Extra Large</option>
-                      </select>
-                    </div>
-                  </div>
-                </div>
                 <div className="w-100" />
-                <div className="input-group col-md-6 d-flex mb-3">
-                  <span className="input-group-btn mr-2">
-                    <button
-                      type="button"
-                      className="quantity-left-minus btn"
-                      data-type="minus"
-                      data-field
-                      onClick={() => handleDecrement()}
-                    >
-                      <i className="ion-ios-remove" />
-                    </button>
-                  </span>
-                  <input
-                    type="text"
-                    id="quantity"
-                    name="quantity"
-                    className="quantity form-control input-number"
-                    value={productQty.length > 0 ? productQty[0].qty : 1}
-                    min={1}
-                    max={100}
-                  />
-                  <span className="input-group-btn ml-2">
-                    <button
-                      type="button"
-                      className="quantity-right-plus btn"
-                      data-type="plus"
-                      data-field
-                      onClick={() => handleIncrement()}
-                    >
-                      <i className="ion-ios-add" />
-                    </button>
-                  </span>
-                </div>
+
                 <div className="w-100" />
                 <div className="col-md-12">
                   <p style={{ color: "#000" }}>

@@ -14,6 +14,7 @@ import Login from "./container/Login";
 import Registration from "./container/Registration";
 import PrivetRoute from "./container/routers/PrivetRoute";
 import { SnackbarProvider } from "notistack";
+import CategoryProducts from "./container/CategoryProducts";
 
 function App() {
   return (
@@ -37,6 +38,11 @@ function App() {
           {/* <PrivetRoute exact path="/checkout" element={<CheckOut />} /> */}
           <Route exact path="/login" element={<Login />} />
           <Route exact path="/registration" element={<Registration />} />
+          <Route
+            exact
+            path="/products/category/:name"
+            element={<CategoryProducts />}
+          />
         </Routes>
         <Footer />
       </SnackbarProvider>

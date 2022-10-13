@@ -1,8 +1,13 @@
 import * as ActionTypes from "../ActionTypes";
 
 export const addToCartAction = (data) => (dispatch) => {
-  console.log(data);
+  // console.log(data);
   dispatch({ type: ActionTypes.ADD_TO_CART, payload: data });
+};
+
+export const decrementToCartAction = (data) => (dispatch) => {
+  // console.log(data);
+  dispatch({ type: ActionTypes.DECREMENT_TO_CART, payload: data });
 };
 
 export const removeFromCartAction = (id) => (dispatch) => {

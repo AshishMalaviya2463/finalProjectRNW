@@ -9,3 +9,7 @@
 .product-name{
     text-align: center;
 }
+
+.error{
+    color: red;
+}
